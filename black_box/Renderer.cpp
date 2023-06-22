@@ -1,4 +1,5 @@
 #include "Renderer.h"
+#include "glfwWrapper.h"
 #include <algorithm>
 #include <cmath>
 
@@ -10,12 +11,10 @@ inline constexpr double minScale = 0.005;
 Renderer::Renderer(const char* name, unsigned int width, unsigned int height) {
     // enable antialiasing
     glfwWindowHint(GLFW_SAMPLES, 4);
-    window = glfwCreateWindow(
-        static_cast<int>(width),
-        static_cast<int>(height),
-        name, nullptr, nullptr);
-
-    glfwMakeContextCurrent(window);
+    window = safeGLFWCall(
+            glfwCreateWindow,
+            int(width), int(height), name, nullptr, nullptr);
+    safeGLFWCall(glfwMakeContextCurrent, window);
     glDisable(GL_DEPTH_TEST);
     glDisable(GL_CULL_FACE);
     zoomValue = initialZoom;
