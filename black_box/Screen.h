@@ -8,7 +8,7 @@ public:
     Screen(View view, int screenWidth, int screenHeight);
     Point toScreen(const Point& worldPos) const;
 private:
+    View view;
     double xRes{};
     double yRes{};
-    View view;
 };

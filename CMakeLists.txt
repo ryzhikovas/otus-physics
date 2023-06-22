@@ -30,3 +30,8 @@ endif()
 add_executable(physics main.cpp World.cpp World.h black_box/Renderer.cpp black_box/Renderer.h black_box/Application.cpp black_box/Application.h Painter.cpp
         Painter.h Point.h black_box/Screen.cpp black_box/Screen.h black_box/View.cpp black_box/Zoomable.h Color.h Color.cpp Ball.cpp Ball.hpp Velocity.h black_box/PainterImpl.cpp black_box/PainterImpl.h Physics.cpp Physics.h black_box/glfwWrapper.cpp black_box/glfwWrapper.h)
 target_link_libraries(physics glfw OpenGL::GL)
+
+target_compile_options(physics PRIVATE
+    $<$<CXX_COMPILER_ID:MSVC>:/W4>
+    $<$<NOT:$<CXX_COMPILER_ID:MSVC>>:-Wall -Wextra -Wpedantic>
+)
