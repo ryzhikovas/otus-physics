@@ -1,16 +1,17 @@
 #pragma once
-#include <vector>
-#include "Physics.h"
 #include "Ball.hpp"
+#include "Physics.h"
+#include <vector>
 
 class Painter;
 
 class World {
-public:
+  public:
     World(const std::string& worldFilePath);
     void show(Painter& painter) const;
     void update(double time);
-private:
+
+  private:
     // Границы мира заданы углами прямоугольника
     Point topLeft;
     Point bottomRight;

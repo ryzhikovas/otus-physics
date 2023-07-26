@@ -1,5 +1,5 @@
-#include "black_box/Application.h"
 #include "World.h"
+#include "black_box/Application.h"
 #include <iostream>
 
 int main(int argc, char* argv[]) {

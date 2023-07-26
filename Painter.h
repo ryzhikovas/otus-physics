@@ -1,7 +1,7 @@
 #pragma once
-#include <memory>
-#include "Point.h"
 #include "Color.h"
+#include "Point.h"
+#include <memory>
 
 class View;
 class PainterImpl;
@@ -11,7 +11,7 @@ namespace sf {
 }
 
 class Painter {
-public:
+  public:
     Painter(sf::RenderWindow& window, const View& view);
     ~Painter();
     /**
@@ -27,7 +27,9 @@ public:
      * @param bottomRight координата нижнего правого угла
      * @param color цвет заливки
      */
-    void draw(const Point& topLeft, const Point& bottomRight, const Color& color);
-private:
+    void draw(const Point& topLeft, const Point& bottomRight,
+              const Color& color);
+
+  private:
     std::unique_ptr<PainterImpl> impl;
 };

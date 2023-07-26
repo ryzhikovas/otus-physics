@@ -1,6 +1,6 @@
 #pragma once
-#include "Point.h"
 #include "Painter.h"
+#include "Point.h"
 #include "Velocity.h"
 
 class Ball {

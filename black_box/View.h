@@ -2,12 +2,14 @@
 #include "../Point.h"
 
 class View {
-public:
-    View(const Point& viewPoint, double screenWidth, double screenHeight, double scale);
+  public:
+    View(const Point& viewPoint, double screenWidth, double screenHeight,
+         double scale);
     void onZoom(double step);
     Point toScreen(const Point& worldPos) const;
     double scale() const;
-private:
+
+  private:
     double zoomValue;
     Point viewPoint;
     double screenWidth;

@@ -1,9 +1,9 @@
 #pragma once
-#include <cmath>
 #include "Point.h"
+#include <cmath>
 
 class Velocity {
-public:
+  public:
     inline Velocity() = default;
 
     // TODO: комментарии
@@ -24,6 +24,7 @@ public:
     inline Point vector() const {
         return vec;
     }
-private:
+
+  private:
     Point vec;
 };

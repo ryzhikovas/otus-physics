@@ -1,6 +1,6 @@
-#include <fstream>
 #include "World.h"
 #include "Painter.h"
+#include <fstream>
 
 // Длительность одного тика симуляции.
 // Подробнее см. update()
@@ -79,7 +79,7 @@ void World::show(Painter& painter) const {
     painter.draw(topLeft, bottomRight, Color(1, 1, 1));
 
     // Вызываем отрисовку каждого шара
-    for (const Ball& ball: balls) {
+    for (const Ball& ball : balls) {
         ball.draw(painter);
     }
 }

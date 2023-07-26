@@ -1,19 +1,15 @@
 #include "Application.h"
-#include <map>
-#include <chrono>
-#include <SFML/Window/Event.hpp>
 #include "../World.h"
-
+#include <SFML/Window/Event.hpp>
+#include <chrono>
+#include <map>
 
 Application::Application(const char* name)
-    :window {
-            { 1280u, 960u },
-            name,
-            sf::Style::Titlebar | sf::Style::Close,
-            sf::ContextSettings(0, 0, 4)
-     },
-     view({0., 0.}, 1280, 960, 0.2) {
-}
+    : window{{1280u, 960u},
+             name,
+             sf::Style::Titlebar | sf::Style::Close,
+             sf::ContextSettings(0, 0, 4)},
+      view({0., 0.}, 1280, 960, 0.2) {}
 
 void Application::run(World& world) {
     time = std::chrono::system_clock::now();
@@ -38,7 +34,10 @@ void Application::processEvents() {
 
 void Application::updateWorld(World& world) {
     const auto currentTime = std::chrono::system_clock::now();
-    const double delta = std::chrono::duration_cast<std::chrono::duration<double>>(currentTime - time).count();
+    const double delta =
+        std::chrono::duration_cast<std::chrono::duration<double>>(currentTime -
+                                                                  time)
+            .count();
     time = currentTime;
 
     totalTime += delta;
@@ -48,7 +47,7 @@ void Application::updateWorld(World& world) {
     }
 }
 
-void Application::drawWorld(const World &world) {
+void Application::drawWorld(const World& world) {
     Painter painter(window, view);
     world.show(painter);
 }
