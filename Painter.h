@@ -3,7 +3,7 @@
 #include "Point.h"
 #include "Color.h"
 
-struct View;
+class View;
 class PainterImpl;
 
 namespace sf {
