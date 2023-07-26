@@ -6,7 +6,7 @@ int main(int argc, char* argv[]) {
 
     if (argc < 2) {
         std::cerr << "Please, call with one argument "
-                  << "( example: " << argv[0] << " <путь к файлу smile.txt> )";
+                  << "( example: " << argv[0] << " <path to file smile.txt> )";
         return 1;
     }
     try {
