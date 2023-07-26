@@ -1,4 +1,5 @@
 #include "Painter.h"
+#include <SFML/Graphics/RenderWindow.hpp>
 #include "black_box/PainterImpl.h"
 
 
