@@ -3,13 +3,16 @@
 #include "Point.h"
 #include "Color.h"
 
-struct GLFWwindow;
 struct View;
 class PainterImpl;
 
+namespace sf {
+    class RenderWindow;
+}
+
 class Painter {
 public:
-    Painter(GLFWwindow* window, const View& view);
+    Painter(sf::RenderWindow& window, const View& view);
     ~Painter();
     /**
      * Рисует круг цвета color

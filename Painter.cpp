@@ -2,7 +2,7 @@
 #include "black_box/PainterImpl.h"
 
 
-Painter::Painter(GLFWwindow* window, const View& view)
+Painter::Painter(sf::RenderWindow& window, const View& view)
         :impl{new PainterImpl(window, view)} {
 }
 

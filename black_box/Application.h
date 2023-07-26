@@ -1,16 +1,22 @@
 #pragma once
 #include <memory>
 #include <chrono>
+#include <SFML/Graphics/RenderWindow.hpp>
+#include "View.h"
 
 class World;
-class Renderer;
 
 class Application {
 public:
     Application(const char* name);
-    ~Application();
     void run(World& world);
 private:
-    std::unique_ptr<Renderer> renderer;
+    void processEvents();
+    void updateWorld(World& world);
+    void drawWorld(const World& world);
+private:
+    sf::RenderWindow window;
+    View view;
     std::chrono::system_clock::time_point time;
+    double totalTime{};
 };

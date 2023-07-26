@@ -1,62 +1,54 @@
-#include <stdexcept>
+#include "Application.h"
 #include <map>
 #include <chrono>
-#include <iostream>
-#include "Application.h"
-#include "GLFW/glfw3.h"
-#include "Renderer.h"
+#include <SFML/Window/Event.hpp>
 #include "../World.h"
 
-namespace {
-    std::map<GLFWwindow*, Renderer*> windowsToRenders;
 
-    void scrollCallback(GLFWwindow* window, double /*xoffset*/, double yoffset) {
-        try {
-            windowsToRenders.at(window)->onZoom(yoffset);
-        } catch (...) {} // suppress possible exceptions
-    }
-
-    void registerScrollCallback(Renderer* renderer) {
-        GLFWwindow* context = renderer->context();
-        windowsToRenders[context] = renderer;
-        glfwSetScrollCallback(context, scrollCallback);
-    }
-}
-
-Application::Application(const char* name) {
-    if (!glfwInit()) {
-        throw std::logic_error("...");
-    }
-    renderer = std::make_unique<Renderer>(name);
-    registerScrollCallback(renderer.get());
-}
-
-Application::~Application() {
-    renderer.reset();
-    glfwTerminate();
+Application::Application(const char* name)
+    :window {
+            { 1280u, 960u },
+            name,
+            sf::Style::Titlebar | sf::Style::Close,
+            sf::ContextSettings(0, 0, 4)
+     },
+     view({0., 0.}, 1280, 960, 0.2) {
 }
 
 void Application::run(World& world) {
     time = std::chrono::system_clock::now();
-    double totalTime = 0.;
+    totalTime = 0.;
 
-    while (!renderer->shouldClose()) {
-        // Check if any events have been activated (key pressed, mouse moved etc.) and call corresponding response functions
-        glfwPollEvents();
-
-        const auto currentTime = std::chrono::system_clock::now();
-        const double delta = std::chrono::duration_cast<std::chrono::duration<double>>(currentTime - time).count();
-        time = currentTime;
-
-        totalTime += delta;
-
-        if (totalTime < 10.) {
-            world.update(delta);
-        }
-
-        //std::cout << "FPS: " << 1. / delta << std::endl;
-
-        Painter painter = renderer->getPainter();
-        world.show(painter);
+    while (window.isOpen()) {
+        processEvents();
+        updateWorld(world);
+        drawWorld(world);
     }
+}
+
+void Application::processEvents() {
+    for (sf::Event event{}; window.pollEvent(event); /**/) {
+        if (event.type == sf::Event::EventType::Closed) {
+            window.close();
+        } else if (event.type == sf::Event::EventType::MouseWheelScrolled) {
+            view.onZoom(event.mouseWheelScroll.delta);
+        }
+    }
+}
+
+void Application::updateWorld(World& world) {
+    const auto currentTime = std::chrono::system_clock::now();
+    const double delta = std::chrono::duration_cast<std::chrono::duration<double>>(currentTime - time).count();
+    time = currentTime;
+
+    totalTime += delta;
+
+    if (totalTime < 10.) {
+        world.update(delta);
+    }
+}
+
+void Application::drawWorld(const World &world) {
+    Painter painter(window, view);
+    world.show(painter);
 }

@@ -1,18 +1,24 @@
 #pragma once
-#include "GLFW/glfw3.h"
 #include "View.h"
-#include "Screen.h"
 #include "../Color.h"
+#include <SFML/Graphics/Color.hpp>
+#include <SFML/System/Vector2.hpp>
+
+namespace sf {
+    class RenderWindow;
+}
 
 class PainterImpl {
 public:
-    PainterImpl(GLFWwindow* window, const View& view);
+    PainterImpl(sf::RenderWindow& window, const View& view);
     ~PainterImpl();
     void draw(const Point& center, double radius, const Color& color);
     void draw(const Point& topLeft, const Point& bottomRight, const Color& color);
 private:
-    void addVertex(const Point& pos);
+    sf::Color toSFMLColor(const Color& color) const;
+    sf::Vector2f toVector(const Point& point) const;
 private:
-    GLFWwindow* window;
-    Screen screen;
+    sf::RenderWindow& window;
+
+    const View& view;
 };

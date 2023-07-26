@@ -1,51 +1,55 @@
-#include <cmath>
 #include "PainterImpl.h"
+#include <algorithm>
+#include <SFML/Graphics/RenderWindow.hpp>
+#include <SFML/Graphics/CircleShape.hpp>
+#include <SFML/Graphics/RectangleShape.hpp>
 
-PainterImpl::PainterImpl(GLFWwindow *window, const View &view)
-    :window{window} {
-    glClearColor(0.f, 0.f, 0.f, 1.0f);
-    glClear(GL_COLOR_BUFFER_BIT);
-
-    int width{};
-    int height{};
-    glfwGetWindowSize(window, &width, &height);
-    glViewport(0, 0, width, height);
-
-    screen = Screen(view, width, height);
+PainterImpl::PainterImpl(sf::RenderWindow& window, const View &view)
+    :window{window},
+     view{view} {
+    window.clear();
 }
 
 PainterImpl::~PainterImpl() {
-    // Swap the screen buffers
-    glfwSwapBuffers(window);
+    window.display();
 }
 
 void PainterImpl::draw(const Point& center, double radius, const Color& color) {
-    glColor3d(color.red(), color.green(), color.blue());
+    const sf::Vector2f pos = toVector(view.toScreen(center));
+    const float scaledRadius = float(radius * view.scale());
+    // Эмпирическая формула. При таком количестве точек получаем гладкие окружности
+    const size_t pointsCount = std::max(int(scaledRadius / 2), 20);
 
-    glBegin(GL_POLYGON);
-    for (int i = 0; i <= 300; i++) {
-        double angle = 2 * M_PI * i / 300;
-        double x = std::cos(angle) * radius;
-        double y = std::sin(angle) * radius;
-        addVertex({center.x + x, center.y + y});
-    }
-    glEnd();
+    sf::CircleShape shape(scaledRadius, pointsCount);
+    shape.setPosition(pos - sf::Vector2f{scaledRadius, scaledRadius});
+    shape.setFillColor(toSFMLColor(color));
+
+    window.draw(shape);
 }
 
-void PainterImpl::draw(const Point &topLeft, const Point &bottomRight, const Color& color) {
-    glColor3d(color.red(), color.green(), color.blue());
+void PainterImpl::draw(const Point& topLeft, const Point& bottomRight, const Color& color) {
+    const sf::Vector2f tl = toVector(view.toScreen(topLeft));
+    const sf::Vector2f br = toVector(view.toScreen(bottomRight));
 
-    glBegin(GL_QUADS);
-    {
-        addVertex(topLeft);
-        addVertex({bottomRight.x, topLeft.y});
-        addVertex(bottomRight);
-        addVertex({topLeft.x, bottomRight.y});
-    }
-    glEnd();
+    sf::RectangleShape rect(br - tl);
+    rect.setPosition(tl);
+    rect.setFillColor(toSFMLColor(color));
+
+    window.draw(rect);
 }
 
-void PainterImpl::addVertex(const Point &pos) {
-    const Point screenPos = screen.toScreen(pos);
-    glVertex2d(screenPos.x, screenPos.y);
+sf::Color PainterImpl::toSFMLColor(const Color &color) const {
+    auto toColorComponent = [] (double value) {
+        return sf::Uint8( std::clamp(value, 0., 1.) * 255 );
+    };
+
+    return sf::Color {
+            toColorComponent(color.red()),
+            toColorComponent(color.green()),
+            toColorComponent(color.blue()),
+    };
+}
+
+sf::Vector2f PainterImpl::toVector(const Point &point) const {
+    return {float(point.x), float(point.y)};
 }
