@@ -1,6 +1,7 @@
 #pragma once
 #include "Ball.hpp"
 #include "Physics.hpp"
+#include <string>
 #include <vector>
 
 class Painter;
