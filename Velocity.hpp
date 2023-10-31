@@ -1,5 +1,5 @@
 #pragma once
-#include "Point.h"
+#include "Point.hpp"
 #include <cmath>
 
 class Velocity {

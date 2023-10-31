@@ -1,5 +1,5 @@
-#include "Painter.h"
-#include "black_box/PainterImpl.h"
+#include "Painter.hpp"
+#include "black_box/PainterImpl.hpp"
 #include <SFML/Graphics/RenderWindow.hpp>
 
 Painter::Painter(sf::RenderWindow& window, const View& view)

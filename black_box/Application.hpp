@@ -1,5 +1,5 @@
 #pragma once
-#include "View.h"
+#include "View.hpp"
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <chrono>
 #include <memory>

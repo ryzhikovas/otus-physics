@@ -1,4 +1,4 @@
-#include "Physics.h"
+#include "Physics.hpp"
 
 double dot(const Point& lhs, const Point& rhs) {
     return lhs.x * rhs.x + lhs.y * rhs.y;

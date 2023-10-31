@@ -1,5 +1,5 @@
-#include "Application.h"
-#include "../World.h"
+#include "Application.hpp"
+#include "../World.hpp"
 #include <SFML/Window/Event.hpp>
 #include <chrono>
 #include <map>

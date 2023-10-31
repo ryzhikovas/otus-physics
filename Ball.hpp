@@ -1,7 +1,7 @@
 #pragma once
-#include "Painter.h"
-#include "Point.h"
-#include "Velocity.h"
+#include "Painter.hpp"
+#include "Point.hpp"
+#include "Velocity.hpp"
 
 class Ball {
 public:

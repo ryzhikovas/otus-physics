@@ -1,5 +1,5 @@
-#include "World.h"
-#include "Painter.h"
+#include "World.hpp"
+#include "Painter.hpp"
 #include <fstream>
 
 // Длительность одного тика симуляции.
