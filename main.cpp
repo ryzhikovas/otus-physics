@@ -1,28 +1,19 @@
-#include "World.hpp"
-#include "black_box/Application.hpp"
-#include <iostream>
+#include <SFML/Graphics.hpp>
 
-int main(int argc, char* argv[]) {
+int main() {
+    sf::RenderWindow window(sf::VideoMode(200, 200), "SFML works!");
+    sf::CircleShape shape(100.f);
+    shape.setFillColor(sf::Color::Green);
 
-    if (argc < 2) {
-        std::cerr << "Please, call with one argument "
-                  << "( example: " << argv[0] << " <path to file smile.txt> )";
-        return 1;
+    while (window.isOpen()) {
+        sf::Event event;
+        while (window.pollEvent(event)) {
+            if (event.type == sf::Event::Closed)
+                window.close();
+        }
+
+        window.clear();
+        window.draw(shape);
+        window.display();
     }
-    try {
-        World w(argv[1]);
-        /**
-         * Код ниже запускает выполнение приложения. Для
-         * выполнения задания нет необходимости изучать
-         * или менять содержимое Application. Для начала
-         * лучше сфокусироваться на Ball.hpp, Ball.cpp и
-         * World.cpp
-         */
-        Application app("physics");
-        app.run(w);
-    } catch (std::exception& ex) {
-        std::cerr << ex.what() << std::endl;
-        return 2;
-    }
-    return 0;
 }
