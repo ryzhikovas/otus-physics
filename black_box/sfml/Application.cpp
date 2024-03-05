@@ -1,8 +1,8 @@
 #include "Application.hpp"
-#include "../World.hpp"
+#include "../../World.hpp"
+#include "SFMLPainter.hpp"
 #include <SFML/Window/Event.hpp>
 #include <chrono>
-#include <map>
 
 Application::Application(const char* name)
     : window{{1280u, 960u},
@@ -48,6 +48,6 @@ void Application::updateWorld(World& world) {
 }
 
 void Application::drawWorld(const World& world) {
-    Painter painter(window, view);
+    SFMLPainter painter(window, view);
     world.show(painter);
 }

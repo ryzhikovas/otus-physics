@@ -1,5 +1,5 @@
 #include "World.hpp"
-#include "black_box/Application.hpp"
+#include <Application.hpp>
 #include <iostream>
 
 int main(int argc, char* argv[]) {
